@@ -3,7 +3,7 @@ using PayOffice.Domain.Enums;
 
 namespace PayOffice.Domain.Entities
 {
-    public class User : Auditable
+    public class Merchant : Auditable
     {
         public string Phone { get; set; }
         public string UserName { get; set; }
