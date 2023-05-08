@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Configrations\" />
-    <Folder Include="Databases\" />
+    <Folder Include="IRepositories\" />
+    <Folder Include="Contexts\" />
     <Folder Include="Repositories\" />
   </ItemGroup>
 
