@@ -2,7 +2,8 @@
 {
     public enum UserRole : byte
     {
-        SuperAdmin = 10,
-        Merchant = 20
+        User,
+        Admin,
+        SuperAdmin
     }
 }
