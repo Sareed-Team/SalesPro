@@ -2,11 +2,6 @@
 using PayOffice.Domain.Entities.Products;
 using PayOffice.Domain.Entities.Users;
 using PayOffice.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PayOffice.Domain.Entities.Commerces
 {
