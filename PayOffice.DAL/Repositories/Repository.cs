@@ -67,7 +67,7 @@ namespace PayOffice.DAL.Repositories
             return await this.SelectAllAsync(expression, includes).FirstOrDefaultAsync();
         }
 
-        public async TEntity UpdateAsync(TEntity entity)
+        public TEntity UpdateAsync(TEntity entity)
         {
             var entry = this.dbSet.Update(entity);
             return entry.Entity;
