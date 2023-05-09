@@ -1,4 +1,6 @@
-﻿using PayOffice.DAL.IRepositories;
+﻿using Microsoft.EntityFrameworkCore;
+using PayOffice.DAL.Contexts;
+using PayOffice.DAL.IRepositories;
 using PayOffice.Domain.Commons;
 using System.Linq.Expressions;
 
@@ -6,39 +8,69 @@ namespace PayOffice.DAL.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditable
     {
-        public ValueTask<bool> DeleteAsync(Expression<Func<TEntity, bool>> expression)
+        private readonly AppDbContext appDbContext;
+        private readonly DbSet<TEntity> dbSet;
+        public Repository(AppDbContext appDbContext)
         {
-            throw new NotImplementedException();
+            this.appDbContext = appDbContext;
+            this.dbSet = appDbContext.Set<TEntity>();
+        }
+
+        public async ValueTask<bool> DeleteAsync(Expression<Func<TEntity, bool>> expression)
+        {
+            var entity = await this.SelectAsync(expression);
+            if (entity is not null) 
+            {
+                return true;
+            }
+            return false;
         }
 
         public bool DeleteMany(Expression<Func<TEntity, bool>> expression)
         {
-            throw new NotImplementedException();
+            var entities = dbSet.Where(expression);
+            if(entities.Any())
+            {
+                return true;
+            }
+            return false;
         }
 
-        public ValueTask<TEntity> InsertAsync(TEntity entity)
+        public async ValueTask<TEntity> InsertAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            var entry = await this.dbSet.AddAsync(entity);
+            return entry.Entity;
         }
 
-        public ValueTask SaveChangesAsync()
+        public async ValueTask SaveChangesAsync()
         {
-            throw new NotImplementedException();
+            await appDbContext.SaveChangesAsync();
         }
 
         public IQueryable<TEntity> SelectAllAsync(Expression<Func<TEntity, bool>> expression = null, string[] includes = null)
         {
-            throw new NotImplementedException();
+            IQueryable<TEntity> query = expression is null ? this.dbSet : this.dbSet.Where(expression);
+
+            if (includes is not null)
+            {
+                foreach (string include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+
+            return query;
         }
 
-        public ValueTask<TEntity> SelectAsync(Expression<Func<TEntity, bool>> expression, string[] includes = null)
+        public async ValueTask<TEntity> SelectAsync(Expression<Func<TEntity, bool>> expression, string[] includes = null)
         {
-            throw new NotImplementedException();
+            return await this.SelectAllAsync(expression, includes).FirstOrDefaultAsync();
         }
 
-        public TEntity UpdateAsync(TEntity entity)
+        public async TEntity UpdateAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            var entry = this.dbSet.Update(entity);
+            return entry.Entity;
         }
     }
 }
