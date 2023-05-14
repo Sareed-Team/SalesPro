@@ -1,4 +1,5 @@
 ﻿using PayOffice.Domain.Commons;
+using PayOffice.Domain.Entities.Commerces;
 
 namespace PayOffice.Domain.Entities.Users
 {
