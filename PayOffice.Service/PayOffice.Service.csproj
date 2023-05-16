@@ -13,4 +13,8 @@
     <Folder Include="Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PayOffice.Domain\PayOffice.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
